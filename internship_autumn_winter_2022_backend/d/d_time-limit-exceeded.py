@@ -3,14 +3,13 @@ def read_input():
     orders = []
     for _ in range(n):
         line = input().strip().split()
-        dt = int(line[1]) - int(line[0])
-        orders.append([int(line[0]), int(line[1]), int(line[2]), dt])
+        orders.append([int(line[0]), int(line[1]), int(line[2])])
 
     m = int(input())
     requests = []
     for _ in range(m):
-        requests.append(input().strip().split())
-    requests = [[int(y) for y in x] for x in requests]
+        line = input().strip().split()
+        requests.append([int(line[0]), int(line[1]), int(line[2])])
 
     return n, orders, m, requests
 
@@ -22,7 +21,7 @@ def get_response(order, request):
             return order[2]
     elif type == 2:
         if request[0] <= order[1] <= request[1]:
-            return order[3]
+            return order[1] - order[0]
     else:
         print("error type!")
 
@@ -43,12 +42,12 @@ def main():
 
 
 if __name__ == "__main__":
-    # assert get_response([10, 100, 1000, 90], [1, 10, 1]) == 1000
-    # assert get_response([10, 100, 1000, 90], [1, 10, 2]) == 0
-    # assert get_response([10, 100, 1000, 90], [10, 100, 1]) == 1000
-    # assert get_response([10, 100, 1000, 90], [10, 100, 2]) == 90
-    # assert get_response([10, 100, 1000, 90], [100, 1000, 1]) == 0
-    # assert get_response([10, 100, 1000, 90], [100, 1000, 2]) == 90
+    # assert get_response([10, 100, 1000], [1, 10, 1]) == 1000
+    # assert get_response([10, 100, 1000], [1, 10, 2]) == 0
+    # assert get_response([10, 100, 1000], [10, 100, 1]) == 1000
+    # assert get_response([10, 100, 1000], [10, 100, 2]) == 90
+    # assert get_response([10, 100, 1000], [100, 1000, 1]) == 0
+    # assert get_response([10, 100, 1000], [100, 1000, 2]) == 90
     main()
 
 """
