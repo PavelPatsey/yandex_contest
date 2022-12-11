@@ -1,29 +1,21 @@
 def read_input():
     n = int(input())
-    orders = []
-    for _ in range(n):
-        line = input().strip().split()
-        orders.append([int(line[0]), int(line[1]), int(line[2])])
+    orders = [[int(y) for y in x] for x in (input().strip().split() for _ in range(n))]
 
     m = int(input())
-    requests = []
-    for _ in range(m):
-        line = input().strip().split()
-        requests.append([int(line[0]), int(line[1]), int(line[2])])
+    requests = [
+        [int(y) for y in x] for x in (input().strip().split() for _ in range(m))
+    ]
 
     return n, orders, m, requests
 
 
 def get_response(order, request):
     type = request[2]
-    if type == 1:
-        if request[0] <= order[0] <= request[1]:
-            return order[2]
-    elif type == 2:
-        if request[0] <= order[1] <= request[1]:
-            return order[1] - order[0]
-    else:
-        print("error type!")
+    if type == 1 and request[0] <= order[0] <= request[1]:
+        return order[2]
+    elif type == 2 and request[0] <= order[1] <= request[1]:
+        return order[1] - order[0]
 
     return 0
 
