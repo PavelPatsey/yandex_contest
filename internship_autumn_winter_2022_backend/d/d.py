@@ -45,7 +45,7 @@ def main():
             )
         responses.append(res)
 
-    print(" ".join(str(n) for n in responses))
+    print(" ".join(map(str, responses)))
 
 
 if __name__ == "__main__":
