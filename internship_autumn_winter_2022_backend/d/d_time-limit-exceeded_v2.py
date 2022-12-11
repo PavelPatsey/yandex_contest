@@ -1,3 +1,6 @@
+from functools import reduce
+
+
 def read_input():
     n = int(input())
     orders = [[int(y) for y in x] for x in (input().strip().split() for _ in range(n))]
@@ -10,34 +13,24 @@ def read_input():
     return n, orders, m, requests
 
 
-def get_response(order, request):
-    type = request[2]
-    if type == 1 and request[0] <= order[0] <= request[1]:
-        return order[2]
-    elif type == 2 and request[0] <= order[1] <= request[1]:
-        return order[1] - order[0]
-
-    return 0
-
-
-def get_sum_responses(orders, request):
-    return sum((get_response(order, request) for order in orders))
-
-
 def main():
     n, orders, m, requests = read_input()
 
-    responses = [get_sum_responses(orders, request) for request in requests]
+    responses = []
+    for request in requests:
+        type = request[2]
+        if type == 1:
+            filtered = filter(lambda x: request[0] <= x[0] <= request[1], orders)
+            res = reduce(lambda acc, x: acc + x[2], filtered, 0)
+        elif type == 2:
+            filtered = filter(lambda x: request[0] <= x[1] <= request[1], orders)
+            res = reduce(lambda acc, x: acc + x[1] - x[0], filtered, 0)
+        responses.append(res)
+
     print(" ".join(str(n) for n in responses))
 
 
 if __name__ == "__main__":
-    # assert get_response([10, 100, 1000], [1, 10, 1]) == 1000
-    # assert get_response([10, 100, 1000], [1, 10, 2]) == 0
-    # assert get_response([10, 100, 1000], [10, 100, 1]) == 1000
-    # assert get_response([10, 100, 1000], [10, 100, 2]) == 90
-    # assert get_response([10, 100, 1000], [100, 1000, 1]) == 0
-    # assert get_response([10, 100, 1000], [100, 1000, 2]) == 90
     main()
 
 """
