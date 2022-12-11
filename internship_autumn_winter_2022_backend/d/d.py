@@ -3,57 +3,39 @@ from collections import defaultdict
 
 def read_input():
     n = int(input())
-    data = []
+    orders = []
     for _ in range(n):
         line = input().strip().split()
-        time_minutes = int(line[0]) * 24 * 60 + int(line[1]) * 60 + int(line[2])
-        data.append([time_minutes, int(line[3]), line[4]])
-    return n, data
+        dt = int(line[1]) - int(line[0])
+        orders.append([int(line[0]), int(line[1]), int(line[2]), dt])
 
+    m = int(input())
+    requests = []
+    for _ in range(m):
+        requests.append(input().strip().split())
+    requests = [[int(y) for y in x] for x in requests]
 
-def get_travel_times(data):
-    travel_times = defaultdict(int)
-    id_storage = defaultdict(int)
-    for record in data:
-        time, id, status = record[0], record[1], record[2]
-        if status == "A":
-            id_storage[id] = time
-        elif status == "B":
-            pass
-        elif status in ("C", "S"):
-            dt = time - id_storage[id]
-            travel_times[id] += dt
-            id_storage[id] = 0
-
-    return travel_times
+    return n, orders, m, requests
 
 
 def main():
-    n, data = read_input()
-    travel_times = get_travel_times(sorted(data, key=lambda data: data[0]))
-
-    keys_values = [(k, v) for k, v in travel_times.items()]
-    keys_values.sort(key=lambda keys_values: keys_values[0])
-    values = [x[1] for x in keys_values]
-    print(" ".join(str(n) for n in values))
+    n, orders, m, requests = read_input()
 
 
 if __name__ == "__main__":
     main()
 
 """
-Ввод
-8
-50 7 25 3632 A
-14 23 52 212372 S
-15 0 5 3632 C
-14 21 30 212372 A
-50 7 26 3632 C
-14 21 30 3632 A
-14 21 40 212372 B
-14 23 52 3632 B
+1
+10 100 1000
+6
+1 10 1
+1 10 2
+10 100 1
+10 100 2
+100 1000 1
+100 1000 2
 
 Вывод
-156 142
-
+1000 0 1000 90 0 90 
 """
