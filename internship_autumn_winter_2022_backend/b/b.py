@@ -6,9 +6,7 @@ def read_input():
     data = []
     for _ in range(n):
         line = input().strip().split()
-        time_d_h_m = int(line[0]), int(line[1]), int(line[2])
-        time_minutes = time_d_h_m[0] * 24 * 60 + time_d_h_m[1] * 60 + time_d_h_m[2]
-        # data.append([time_minutes,time_d_h_m, int(line[3]), line[4]])
+        time_minutes = int(line[0]) * 24 * 60 + int(line[1]) * 60 + int(line[2])
         data.append([time_minutes, int(line[3]), line[4]])
     return n, data
 
