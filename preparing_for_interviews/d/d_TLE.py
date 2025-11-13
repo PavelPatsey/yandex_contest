@@ -14,19 +14,19 @@ def get_path_length(
     visited: Set,
     prev_value: int,
 ) -> int:
+    if node in visited:
+        return len(visited)
+    if not in_bound(node, len(matrix), len(matrix[0])):
+        return len(visited)
     row, col = node
     if matrix[row][col] <= prev_value:
         return len(visited)
     lengths = []
     for dr, dc in DIRS:
-        new_row, new_col = row + dr, col + dc
-        new_node = new_row, new_col
-        if new_node not in visited and in_bound(new_node, len(matrix), len(matrix[0])):
-            lengths.append(
-                get_path_length(
-                    new_node, matrix, visited | {new_node}, matrix[row][col]
-                )
-            )
+        new_node = row + dr, col + dc
+        lengths.append(
+            get_path_length(new_node, matrix, visited | {node}, matrix[row][col])
+        )
     return max(lengths)
 
 
@@ -64,8 +64,8 @@ def test():
 
 
 if __name__ == "__main__":
-    test()
-    # main()
+    # test()
+    main()
 
 """
 input
