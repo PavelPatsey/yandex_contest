@@ -1,6 +1,5 @@
-import sys
+from typing import Tuple
 
-sys.setrecursionlimit(10**7)
 DIFFER = abs(ord("a") - ord("A"))
 
 
@@ -8,19 +7,27 @@ def differ_in_case(ch1: str, ch2: str) -> bool:
     return abs(ord(ch2) - ord(ch1)) == DIFFER
 
 
-def get_differ_index(string: str) -> int:
-    for i, pair in enumerate(zip(string, string[1:])):
-        if differ_in_case(pair[0], pair[1]):
-            return i
-    return -1
+def make_converted_string(string: str) -> Tuple[str, bool]:
+    chars = []
+    i = 0
+    while i < len(string):
+        if i == len(string) - 1:
+            chars.append(string[i])
+            i += 1
+        elif differ_in_case(string[i], string[i + 1]):
+            i += 2
+        else:
+            chars.append(string[i])
+            i += 1
+    return "".join(chars), len(chars) != len(string)
 
 
 def convert_to_good_string(string: str) -> str:
-    i = get_differ_index(string)
-    if i == -1:
-        return string
-    new_string = string[:i] + string[i + 2 :]
-    return convert_to_good_string(new_string)
+    converted = True
+    new_string = string
+    while converted:
+        new_string, converted = make_converted_string(new_string)
+    return new_string
 
 
 def main():
@@ -34,14 +41,14 @@ def test():
     assert differ_in_case("A", "b") == False
     assert differ_in_case("z", "t") == False
 
-    assert get_differ_index("vxOoOoVvx") == 2
+    assert make_converted_string("vxOoOoVvx") == ("vxx", True)
 
     assert convert_to_good_string("vxOoOoVvx") == "vxx"
     assert convert_to_good_string("abBa") == "aa"
 
 
 if __name__ == "__main__":
-    test()
+    # test()
     main()
 
 """
