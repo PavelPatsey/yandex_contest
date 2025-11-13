@@ -1,4 +1,7 @@
-from typing import List, Set, Tuple
+import sys
+from typing import List, Tuple
+
+sys.setrecursionlimit(10**7)
 
 DIRS = ((0, 1), (-1, 0), (0, -1), (1, 0))
 
@@ -10,7 +13,7 @@ def in_bound(node, len_rows, len_cols):
 
 def get_path_length(
     n: Tuple[int, int], matrix: List[List[int]], dp: List[List[int]]
-) -> Tuple[int, List]:
+) -> int:
     def _dfs(node: Tuple[int, int]) -> int:
         r, c = node
         if dp[r][c] != 0:
@@ -29,7 +32,7 @@ def get_path_length(
         return max_length
 
     len_path = _dfs(n)
-    return len_path, dp
+    return len_path
 
 
 def get_longest_increasing_path(matrix: List[List[int]]) -> int:
@@ -40,7 +43,7 @@ def get_longest_increasing_path(matrix: List[List[int]]) -> int:
     for row in range(len_rows):
         for col in range(len_cols):
             node = row, col
-            longest, dp = get_path_length(node, matrix, dp)
+            longest = get_path_length(node, matrix, dp)
             res = max(res, longest)
     return res
 
