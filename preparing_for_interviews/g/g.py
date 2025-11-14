@@ -1,6 +1,5 @@
 import sys
 from collections import defaultdict
-from typing import Dict
 
 sys.setrecursionlimit(10**7)
 
@@ -24,6 +23,8 @@ def get_number_of_upgoing_paths(root: Node, x: int) -> int:
         for child in node.children:
             _dfs(child, prefix_sum)
         freq[prefix_sum] -= 1
+        if freq[prefix_sum] == 0:
+            del freq[prefix_sum]
 
     freq = defaultdict(int)
     freq[0] += 1
