@@ -1,12 +1,11 @@
-from typing import Dict
-
-
 class Node:
-    # feel free to change fields
     def __init__(self, weight, parent) -> None:
         self.weight = weight
         self.parent = parent
         self.children = []
+
+    def __repr__(self):
+        return f"w={self.weight},p={self.parent},ch={self.children}"
 
 
 def get_number_of_upgoing_paths(root: Node, x: int) -> int:
