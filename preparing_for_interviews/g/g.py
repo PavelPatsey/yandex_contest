@@ -3,9 +3,12 @@ class Node:
         self.weight = weight
         self.parent = parent
         self.children = []
+        self.prefix_sum = None
 
     def __repr__(self):
-        return f"w={self.weight},p={self.parent},ch={self.children}"
+        return (
+            f"w={self.weight},p={self.parent},ps={self.prefix_sum},ch={self.children}"
+        )
 
 
 def get_number_of_upgoing_paths(root: Node, x: int) -> int:
@@ -24,6 +27,9 @@ def read_tree(tree_size: int) -> Node:
     for i in range(tree_size):
         if nodes[i].parent != -1:
             nodes[nodes[i].parent].children.append(nodes[i])
+            nodes[i].prefix_sum = nodes[i].weight + nodes[nodes[i].parent].prefix_sum
+        else:
+            nodes[i].prefix_sum = nodes[i].weight
     return root
 
 
