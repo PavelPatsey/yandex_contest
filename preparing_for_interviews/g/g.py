@@ -1,3 +1,7 @@
+from collections import defaultdict
+from typing import Dict
+
+
 class Node:
     def __init__(self, weight, parent) -> None:
         self.weight = weight
@@ -5,15 +9,22 @@ class Node:
         self.children = []
         self.prefix_sum = None
 
-    def __repr__(self):
-        return (
-            f"w={self.weight},p={self.parent},ps={self.prefix_sum},ch={self.children}"
-        )
-
 
 def get_number_of_upgoing_paths(root: Node, x: int) -> int:
-    # your code goes here
-    return 0
+    res = 0
+
+    def _dfs(node: Node, freq: Dict):
+        nonlocal res
+        delta = node.prefix_sum - x
+        res += freq[delta]
+        freq[delta] += 1
+        for child in node.children:
+            _dfs(child, freq)
+
+    f = defaultdict(int)
+    f[0] += 1
+    _dfs(root, f)
+    return res
 
 
 def read_tree(tree_size: int) -> Node:
